@@ -39,7 +39,7 @@
 using namespace std;
 
 struct md5comp {
-	bool operator()(const MD5 &d1, const MD5 &d2) const {
+    bool operator()(const MD5 &d1, const MD5 &d2) const {
         for (int i = 0; i<4; i++) {
             if (d1.data[i] < d2.data[i]) {
                 return true;
@@ -48,8 +48,8 @@ struct md5comp {
             }
         }
 
-        return false;//make sure the when A equal B	
-	}
+        return false;//make sure the when A equal B 
+    }
 };
 
 class XCrawler

@@ -38,6 +38,7 @@ XCrawler::~XCrawler() {
 void XCrawler::init() {
     string strLine;
 
+    // Read seed user url from file. 
     ifstream init_file;
     init_file.open(SEEDS_FILE.c_str(), ios::binary);
     if (!init_file) {
@@ -48,11 +49,11 @@ void XCrawler::init() {
     }
     init_file.close();
 
+    // Mark seed user url as read. 
     init_file.open(VISITED_URL_MD5_FILE.c_str(), ios::binary);
     if (!init_file) {
         exit(0);
     }
-
     while (getline(init_file,strLine)) {
         CMD5 tempCmd5(strLine.c_str());
         visitedUrlMd5.insert(tempCmd5.getResult());
@@ -61,6 +62,7 @@ void XCrawler::init() {
 }
 
 void XCrawler::init_epoll() {
+    // For scalable I/O
     int fd = epoll_create1(0);
     check(fd > 0, "epoll_create");
 
@@ -79,7 +81,7 @@ void XCrawler::start()
 {
     pthread_t tid;
     int iRet = 0;
-
+    // Create a new thread to run run(this)
     iRet = pthread_create(&tid, NULL, run, this);
     if (iRet < 0) {
         perror("pthread_create");
@@ -256,8 +258,8 @@ void XCrawler::fetch()
 
                 default:
                     break;
-            } 
-        }
+            }  // end switch
+        } //end for
 
     } //end while
 }
